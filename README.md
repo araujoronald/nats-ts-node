@@ -28,3 +28,41 @@ Publicar mensagem em um tópico
 ```sh
 nats pub futebol.brasileiro "Bora Bahea"
 ```
+
+## Nats Jetstream
+
+Criando um stream
+
+```sh
+nats stream add futebol_stream
+```
+
+Informações do stream
+
+```sh
+nats stream info futebol_stream
+```
+
+Publicando em um stream
+
+```sh
+nats pub brasileirao --count=1000 --sleep 1s "publication #{{Count}} @ {{TimeStamp}}"
+```
+
+Visualizando dados de um stream
+
+```sh
+nats stream view futebol_stream
+```
+
+Adicionando um consumidor
+
+```sh
+nats consumer add
+```
+
+Consumindo mensagens
+
+```sh
+nats consumer next futebol_stream [consumer-name] --count 1000
+```
