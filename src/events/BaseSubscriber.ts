@@ -10,7 +10,6 @@ interface Event {
 
 export abstract class Subscriber<T extends Event> {
   abstract subject: T["subject"]
-  abstract queueGroupName: string
   abstract onMessage(data: T["data"], msg: JsMsg): void
 
   protected client: JetStreamClient
@@ -22,11 +21,11 @@ export abstract class Subscriber<T extends Event> {
 
   subscriptionOptions() {
     return new ConsumerOptsBuilderImpl()
-      .deliverAll()
+      .deliverNew()
       .manualAck()
       .ackWait(this.ackWait)
-      .durable(this.queueGroupName)
-    // .deliverTo('futebol')
+      .deliverTo('futebol')
+    //.durable(this.queueGroupName)
   }
 
 

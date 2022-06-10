@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import * as nc from 'nats'
-import { AckPolicy, DeliverPolicy, JetStreamClient, JetStreamManager, NatsConnection } from 'nats'
+import { AckPolicy, DeliverPolicy, JetStreamClient, JetStreamManager, NatsConnection, ReplayPolicy, StorageType } from 'nats'
 
 class NatsWrapper {
 
@@ -38,13 +38,24 @@ class NatsWrapper {
             const baseSubject = `${streamName}.*`
             const jsm = await this._natsConn.jetstreamManager()
 
-            await jsm.streams.add({ name: streamName, subjects: [baseSubject] })
-            console.log(`NATS Stream ${streamName} adicionado no subject ${baseSubject}`)
+            const streamExists = await jsm.streams.find(baseSubject)
+
+            if (!streamExists) {
+                await jsm.streams.add({
+                    name: streamName,
+                    subjects: [baseSubject],
+                    storage: StorageType.Memory,
+                    num_replicas: 1
+                })
+                console.log(`NATS Stream ${streamName} adicionado no subject ${baseSubject} e em uso`)
+            }
+
+            console.log(`NATS Stream ${streamName} em uso`)
 
             await jsm.consumers.add(streamName, {
-                deliver_policy: DeliverPolicy.All,
+                replay_policy: ReplayPolicy.Original,
                 ack_policy: AckPolicy.Explicit,
-                ack_wait: this.ackWait,
+                ack_wait: this.ackWait
             })
 
             this._jetstreamClient = this._natsConn.jetstream()

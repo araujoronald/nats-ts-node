@@ -1,6 +1,7 @@
 import express from 'express'
 import { principalRoutes } from './api/principal.routes'
 import { natsWrapper } from './conn/NatsWrapper'
+import { GolSubscriber } from './events/GolSubscriber'
 import { PartidaIniciadaSubscriber } from './events/PartidaIniciadaSubscriber'
 
 
@@ -16,6 +17,7 @@ const start = async () => {
     )
 
     new PartidaIniciadaSubscriber(natsWrapper.client).listen()
+    new GolSubscriber(natsWrapper.client).listen()
 
     const port = 3000
     app.listen(port, () => {
