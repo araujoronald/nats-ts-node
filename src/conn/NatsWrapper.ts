@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import * as nc from 'nats'
-import { AckPolicy, DeliverPolicy, JetStreamClient, JetStreamManager, NatsConnection, ReplayPolicy, StorageType } from 'nats'
+import { AckPolicy, DeliverPolicy, JetStreamClient, JetStreamManager, NatsConnection, ReplayPolicy, RetentionPolicy, StorageType } from 'nats'
 
 class NatsWrapper {
 
@@ -16,12 +16,12 @@ class NatsWrapper {
         return this._jetstreamClient
     }
 
-    get jetstreamManager() {
-        if (!this._jetstreamManager) {
-            throw new Error('Não é possível obter o JetstreamManager')
-        }
-        return this._jetstreamManager
-    }
+    // get jetstreamManager() {
+    //     if (!this._jetstreamManager) {
+    //         throw new Error('Não é possível obter o JetstreamManager')
+    //     }
+    //     return this._jetstreamManager
+    // }
 
     async connect(clientId: string, streamName: string, serverUrl: string): Promise<void> {
 
@@ -38,25 +38,25 @@ class NatsWrapper {
             const baseSubject = `${streamName}.*`
             const jsm = await this._natsConn.jetstreamManager()
 
-            const streamExists = await jsm.streams.find(baseSubject)
-
-            if (!streamExists) {
+            try {
+                const streamExists = await jsm.streams.find(baseSubject)
+                console.log(`NATS Stream ${streamName} em uso`)
+            } catch (error) {
                 await jsm.streams.add({
                     name: streamName,
                     subjects: [baseSubject],
                     storage: StorageType.Memory,
+                    retention: RetentionPolicy.Interest,
                     num_replicas: 1
                 })
                 console.log(`NATS Stream ${streamName} adicionado no subject ${baseSubject} e em uso`)
             }
 
-            console.log(`NATS Stream ${streamName} em uso`)
-
-            await jsm.consumers.add(streamName, {
-                replay_policy: ReplayPolicy.Original,
-                ack_policy: AckPolicy.Explicit,
-                ack_wait: this.ackWait
-            })
+            // await jsm.consumers.add(streamName, {
+            //     replay_policy: ReplayPolicy.Original,
+            //     ack_policy: AckPolicy.Explicit,
+            //     ack_wait: this.ackWait
+            // })
 
             this._jetstreamClient = this._natsConn.jetstream()
             console.log(`NATS Jetstream client obtido`)

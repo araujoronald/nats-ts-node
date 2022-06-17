@@ -11,9 +11,10 @@ router.get('/', (request, response) => {
 router.get('/partida-iniciada', async (request, response) => {
     const publisher = new PartidaIniciadaPublisher(natsWrapper.client)
     await publisher.publish({
-        id: 'Partida 1',
+        id: 'Partida: ' + new Date().getTime(),
         mandante: 'Bahia',
         visitante: 'Real Madrid'
+
     })
     response.json({ message: 'Mensagem publicada' })
 

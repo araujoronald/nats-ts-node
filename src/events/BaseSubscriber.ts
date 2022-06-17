@@ -1,5 +1,5 @@
-import { AckPolicy, JetStreamClient, ConsumerOptsBuilder, StringCodec, JsMsg } from 'nats'
-import { ConsumerOptsBuilderImpl } from 'nats/lib/nats-base-client/jsconsumeropts'
+import { AckPolicy, JetStreamClient, ConsumerOptsBuilder, StringCodec, JsMsg, JSONCodec, createInbox } from 'nats'
+import { consumerOpts, ConsumerOptsBuilderImpl } from 'nats/lib/nats-base-client/jsconsumeropts'
 import { Subjects } from './Subjects'
 
 
@@ -11,6 +11,7 @@ interface Event {
 export abstract class Subscriber<T extends Event> {
   abstract subject: T["subject"]
   abstract onMessage(data: T["data"], msg: JsMsg): void
+  abstract queueName: string
 
   protected client: JetStreamClient
   protected ackWait = 30000; // 30 segundos
@@ -19,24 +20,27 @@ export abstract class Subscriber<T extends Event> {
     this.client = client
   }
 
-  subscriptionOptions() {
+  consumerOptions() {
     return new ConsumerOptsBuilderImpl()
-      .deliverNew()
+      .queue(this.queueName)
+      .durable(this.subject.replace('.', ''))
       .manualAck()
+      .ackExplicit()
       .ackWait(this.ackWait)
-      .deliverTo('futebol')
-    //.durable(this.queueGroupName)
+      .deliverTo(createInbox())
   }
 
-
   async listen() {
-    const subscription = await this.client.subscribe(this.subject, this.subscriptionOptions())
-    const sc = StringCodec();
+    console.log('iniciando subscriber')
+    const subscription = await this.client.subscribe(this.subject, this.consumerOptions())
+    console.log('subscriber adicionado')
+
+    const sc = StringCodec()
+    const jsonCodec = JSONCodec();
 
     (async () => {
       for await (const m of subscription) {
-        // console.log(`[${subscription.getProcessed()}]: ${sc.decode(m.data)}`)
-        this.onMessage(sc.decode(m.data), m)
+        this.onMessage(jsonCodec.decode(m.data), m)
       }
     })()
   }
