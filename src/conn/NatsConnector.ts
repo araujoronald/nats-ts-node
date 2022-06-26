@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import * as nc from 'nats'
 import { JetStreamClient, NatsConnection, RetentionPolicy, StorageType } from 'nats'
-import { Logger } from '../util/Logger'
+import { Logger } from '../util/logger'
 
 class NatsConnector {
 

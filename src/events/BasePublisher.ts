@@ -1,6 +1,6 @@
 import { JetStreamClient, JSONCodec, StringCodec } from 'nats'
-import { Logger } from '../util/Logger'
-import { Subjects } from "./Subjects"
+import { Logger } from '../util/logger'
+import { Subjects } from "./subjects"
 
 interface Event {
   subject: Subjects

@@ -1,7 +1,7 @@
-import { AckPolicy, JetStreamClient, ConsumerOptsBuilder, StringCodec, JsMsg, JSONCodec, createInbox } from 'nats'
-import { consumerOpts, ConsumerOptsBuilderImpl } from 'nats/lib/nats-base-client/jsconsumeropts'
-import { Logger } from '../util/Logger'
-import { Subjects } from './Subjects'
+import { JetStreamClient, StringCodec, JsMsg, JSONCodec, createInbox } from 'nats'
+import { ConsumerOptsBuilderImpl } from 'nats/lib/nats-base-client/jsconsumeropts'
+import { Logger } from '../util/logger'
+import { Subjects } from './subjects'
 
 
 interface Event {

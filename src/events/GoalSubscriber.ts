@@ -1,9 +1,9 @@
 import { JsMsg } from 'nats'
 import { Subscriber } from './BaseSubscriber'
 import { GoalEvent } from './GoalEvent'
-import { Subjects } from './Subjects'
-import { queueName } from "./Queue"
-import { Logger } from '../util/Logger'
+import { Subjects } from './subjects'
+import { queueName } from "./queue"
+import { Logger } from '../util/logger'
 
 export class GoalSubscriber extends Subscriber<GoalEvent> {
   queueName = queueName;

@@ -1,4 +1,4 @@
-import { Subjects } from "./Subjects"
+import { Subjects } from "./subjects"
 
 export interface GoalEvent {
   subject: Subjects.Goal

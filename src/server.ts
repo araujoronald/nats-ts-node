@@ -1,11 +1,10 @@
-import { randomInt } from 'crypto'
 import 'dotenv/config'
 import express from 'express'
 import { principalRoutes } from './api/principal.routes'
 import { natsConnector } from './conn/NatsConnector'
 import { GoalSubscriber } from './events/GoalSubscriber'
 import { MatchStartedSubscriber } from './events/MatchStartedSubscriber'
-import { Logger } from './util/Logger'
+import { Logger } from './util/logger'
 
 
 const start = async () => {

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { natsConnector } from '../conn/NatsConnector'
 import { GoalPublisher } from '../events/GoalPublisher'
 import { MatchStartedPublisher } from '../events/MatchStartedPublisher'
-import { Stadiums, Teams } from '../util/Assets'
+import { Stadiums, Teams } from '../util/assets'
 
 const router = Router()
 

@@ -1,4 +1,4 @@
-import { Subjects } from "./Subjects"
+import { Subjects } from "./subjects"
 
 export interface MatchStartedEvent {
   subject: Subjects.MatchStarted
