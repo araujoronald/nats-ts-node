@@ -23,6 +23,7 @@ services:
       - NATS_STREAM_NAME=${NATS_STREAM_NAME}
       - NATS_SERVER_URL=${NATS_SERVER_URL}
       - NODE_PORT=3000
+      - ONLY_PUBLISHER=true
 
   node2:
     depends_on:

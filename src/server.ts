@@ -32,8 +32,10 @@ const start = async () => {
         serverUrl
     )
 
-    new MatchStartedSubscriber(natsConnector.client).listen()
-    new GoalSubscriber(natsConnector.client).listen()
+    if (!process.env.ONLY_PUBLISHER) {
+        new MatchStartedSubscriber(natsConnector.client).listen()
+        new GoalSubscriber(natsConnector.client).listen()
+    }
 
     const port = process.env.NODE_PORT
     app.listen(port, () => {

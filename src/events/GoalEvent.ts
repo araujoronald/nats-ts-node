@@ -5,5 +5,12 @@ export interface GoalEvent {
   data: {
     id: string
     time: Date
+    status: GoalStatus
   }
+}
+
+export enum GoalStatus {
+  Valid = 'valid',
+  Offside = 'offside',
+  CheckingVAR = 'checkingVar'
 }
