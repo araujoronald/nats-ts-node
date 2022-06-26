@@ -6,3 +6,54 @@ services:
       - "4222:4222"
       - "8222:8222"
     command: --name local-nats -m 8222 --jetstream
+
+  node1:
+    depends_on:
+      - nats
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - /node_modules
+      - ./:/app
+    ports:
+      - 3000:3000
+    environment:
+      - NATS_CLIENT_ID_PREFIX=${NATS_CLIENT_ID_PREFIX}
+      - NATS_STREAM_NAME=${NATS_STREAM_NAME}
+      - NATS_SERVER_URL=${NATS_SERVER_URL}
+      - NODE_PORT=3000
+
+  node2:
+    depends_on:
+      - nats
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - /node_modules
+      - ./:/app
+    ports:
+      - 3001:3001
+    environment:
+      - NATS_CLIENT_ID_PREFIX=${NATS_CLIENT_ID_PREFIX}
+      - NATS_STREAM_NAME=${NATS_STREAM_NAME}
+      - NATS_SERVER_URL=${NATS_SERVER_URL}
+      - NODE_PORT=3001
+
+  node3:
+    depends_on:
+      - nats
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - /node_modules
+      - ./:/app
+    ports:
+      - 3003:3003
+    environment:
+      - NATS_CLIENT_ID_PREFIX=${NATS_CLIENT_ID_PREFIX}
+      - NATS_STREAM_NAME=${NATS_STREAM_NAME}
+      - NATS_SERVER_URL=${NATS_SERVER_URL}
+      - NODE_PORT=3003

@@ -1,1 +1,1 @@
-export const queueName = 'futebol-service'
+export const queueName = 'football-service'
