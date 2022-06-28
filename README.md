@@ -24,6 +24,10 @@ This command will start the Nats Server and three NodeJS Applications. The app n
 
 ## The endpoints
 
+`/match-started`
+
+HTTP return 200 OK, the subscriber will be consume the event and acknowledge.
+
 `/goal`
 
 HTTP return 200 OK, the subscriber will be consume the event and acknowledge.
