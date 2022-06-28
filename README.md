@@ -8,6 +8,14 @@ Below, show the resumed architecure
 
 ## Start the environment
 
+First, you need create a .env file on the root folder, and set the follow keys:
+
+- NATS_CLIENT_ID_PREFIX=client-foot-
+- NATS_STREAM_NAME=football
+- NATS_SERVER_URL=nats://nats:4222
+
+Run the docker compose
+
 ```sh
 docker-compose up
 ```
