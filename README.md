@@ -1,14 +1,26 @@
-# nats-ts-node
+# Nats-ts-node
 
-Subir o Nats Server:
+This project presents a practical example of the concepts of [Nats](https://nats.io/). The App Client exposes some endpoints in NodeJs + Express. During application startup, subscribers are added to queues to listen to subjects. When a client invokes the endpoints, an event is published, and Nats persist that event in a stream. Subscribers are notified about the event, process them, and acknowledge Nats about the consumed event.
+
+Below, show the resumed architecure
+
+![](assets/20220628_122256_Diagram.drawio.png)
+
+The following are the instructions to run
+
+1) Start the environment:
 
 ```sh
 docker-compose up
 ```
 
+This command will start the Nats Server and three NodeJS Applications. The app node1 is configurated to be only publisher, other node apps (2 and 3) are publisher and subscriber.
+
+--
+
 Instalar o Nats CLI:
 
-Fazer download em <https://github.com/nats-io/natscli/releases>
+Fazer download em [https://github.com/nats-io/natscli/releases](https://github.com/nats-io/natscli/releases)
 <br>
 
 Conectar no Nats Server utilizando o nats CLI
