@@ -34,7 +34,7 @@ HTTP return 200 OK, the subscriber will be consume the event, throw an error and
 
 `/goal-checking-var`
 
-HTTP return 200 OK, the subscriber will be consume the event, and the timeout proccessing. The message will be resent. We know, VAR delayed the game excessively.
+HTTP return 200 OK, the subscriber will be consume the event, and the timeout proccessing. The message will be resent. We know, VAR daley the match excessively.
 
 ## Nats CLI
 
