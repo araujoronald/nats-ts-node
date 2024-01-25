@@ -125,3 +125,15 @@ Remove all messages
 ```sh
 nats stream purge
 ```
+
+List all messages on stream
+
+```sh
+nats stream view [--subject [subject]]
+```
+
+Remove a messages from stream
+
+```sh
+nats stream rmm [stream] [id_message]
+```
